@@ -71,6 +71,8 @@ async function getUserFromToken(req: NextRequest) {
 export async function GET(req: NextRequest) {
   // Only allow admin
   const user = await getUserFromToken(req)
+  // Logging: who requested GET
+  console.log("[GET /api/confessions] Request by user:", user ? { id: user._id?.toString?.(), username: user.username, role: user.role } : null)
   if (!user || user.role !== "admin") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 403 })
   }
@@ -89,6 +91,8 @@ export async function GET(req: NextRequest) {
     .skip(skip)
     .limit(perPage)
     .toArray()
+  // Logging: how many confessions returned
+  console.log(`[GET /api/confessions] Returned ${confessions.length} confessions for user:`, user ? user.username : null)
   return NextResponse.json({
     confessions: confessions.map((c) => ({
       id: c._id.toString(),
@@ -125,7 +129,12 @@ export async function POST(req: NextRequest) {
   const userAgent = req.headers.get("user-agent") || null
   const forwardedFor = xForwardedFor || null
 
+  // Logging: POST attempt
+  console.log("[POST /api/confessions] Attempt from IP:", ip, "User-Agent:", userAgent)
+
   if (isRateLimited(ip)) {
+    // Logging: rate limit hit
+    console.warn("[POST /api/confessions] Rate limit exceeded for IP:", ip)
     return NextResponse.json(
       { error: "Too many submissions. Please wait a minute before trying again." },
       { status: 429 }
@@ -142,6 +151,8 @@ export async function POST(req: NextRequest) {
     forwardedFor,
   }
   const result = await db.collection("confessions").insertOne(confession)
+  // Logging: confession created
+  console.log("[POST /api/confessions] Created confession:", { id: result.insertedId.toString(), ip, userAgent })
   return NextResponse.json({
     confession: {
       id: result.insertedId.toString(),
