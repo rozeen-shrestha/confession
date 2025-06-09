@@ -367,61 +367,63 @@ export default function AdminDashboard() {
           ))}
         </div>
 
-        {/* Hidden preview container for single confession */}
-        <div
-          ref={previewRef}
-          style={{
-            display: "block",
-            width: 600,
-            background: "#fff",
-            color: "#333",
-            fontFamily: notoSansText.style.fontFamily,
-            borderRadius: 0,
-            boxShadow: "none",
-            padding: 40,
-            margin: "0 auto",
-            position: "fixed",
-            left: "-9999px",
-            top: "0",
-            zIndex: -1000,
-            opacity: previewOpen ? 1 : 0,
-            pointerEvents: "none",
-          }}
-        >
-          {previewConfession && (
-            <div style={{ marginBottom: 0 }}>
-              <div style={{
-                fontFamily: notoSansHeader.style.fontFamily,
-                fontWeight: 800,
-                color: "#00008B",
-                fontSize: 24,
-                marginBottom: 32,
-                letterSpacing: 0,
-                lineHeight: 1.3,
-              }}>
-                -{previewConfession.name.charAt(0).toUpperCase() + previewConfession.name.slice(1)}{" "}
-                {
-                  new Date(previewConfession.createdAt)
-                    .toLocaleString("en-US", { timeZone: "Asia/Kathmandu" })
-                }
-              </div>
-              <div style={{
-                fontFamily: notoSansText.style.fontFamily,
-                fontWeight: 600,
-                fontSize: 20,
-                color: "#333",
-                lineHeight: 1.6,
-                textAlign: "left",
-                wordBreak: "break-word",
-                whiteSpace: "pre-wrap",
-                marginLeft: 20,
-                maxWidth: 540,
-              }}>
-                • {previewConfession.text}
-              </div>
-            </div>
-          )}
-        </div>
+<div
+  ref={previewRef}
+  style={{
+    display: "block",
+    width: 470, // reduced width
+    minHeight: 500, // increased minimum height
+    background: "#fff",
+    color: "#333",
+    fontFamily: notoSansText.style.fontFamily,
+    borderRadius: 0,
+    boxShadow: "none",
+    padding: 40,
+    margin: "0 auto",
+    position: "fixed",
+    left: "-9999px",
+    top: "0",
+    zIndex: -1000,
+    opacity: previewOpen ? 1 : 0,
+    pointerEvents: "none",
+  }}
+>
+  {previewConfession && (
+    <div style={{ marginBottom: 40, minHeight: 320 /* ensures extra space below */ }}>
+      <div style={{
+        fontFamily: notoSansHeader.style.fontFamily,
+        fontWeight: 800,
+        color: "#000", // changed to black
+        fontSize: 24,
+        marginBottom: 32,
+        letterSpacing: 0,
+        lineHeight: 1.3,
+      }}>
+        -{previewConfession.name.charAt(0).toUpperCase() + previewConfession.name.slice(1)}{" "}
+        {
+          new Date(previewConfession.createdAt)
+            .toLocaleString("en-US", { timeZone: "Asia/Kathmandu" })
+        }
+      </div>
+      <div style={{
+        fontFamily: notoSansText.style.fontFamily,
+        fontWeight: 600,
+        fontSize: 20,
+        color: "#333",
+        lineHeight: 1.6,
+        textAlign: "left",
+        wordBreak: "break-word",
+        whiteSpace: "pre-wrap",
+        marginLeft: 20,
+        maxWidth: 420, // match width - padding
+        minHeight: 120, // ensures some vertical space
+        marginBottom: 60, // extra bottom gap
+      }}>
+        • {previewConfession.text}
+      </div>
+    </div>
+  )}
+</div>
 
         {/* Dialog for confession image preview */}
         <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
