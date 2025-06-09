@@ -371,7 +371,7 @@ export default function AdminDashboard() {
   ref={previewRef}
   style={{
     display: "block",
-    width: 470, // reduced width
+    width: 490, // reduced width
     minHeight: 500, // increased minimum height
     background: "#fff",
     color: "#333",
