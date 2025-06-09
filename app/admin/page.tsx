@@ -402,7 +402,7 @@ export default function AdminDashboard() {
         -{previewConfession.name.charAt(0).toUpperCase() + previewConfession.name.slice(1)}{" "}
         {
           new Date(previewConfession.createdAt)
-            .toLocaleString("en-US", { timeZone: "Asia/Kathmandu" })
+  .toLocaleString("en-US", { timeZone: "Asia/Kathmandu", hour12: false })
         }
       </div>
       <div style={{
